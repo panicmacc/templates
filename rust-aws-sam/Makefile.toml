@@ -1,0 +1,23 @@
+[tasks.clean]
+command = "cargo"
+args = ["clean"]
+
+[tasks.deny]
+command = "cargo"
+args = ["deny", "--locked", "check"]
+
+[tasks.dups]
+command = "cargo"
+args = ["tree", "--duplicate"]
+
+[tasks.udeps]
+command = "cargo"
+args = ["udeps"]
+
+[tasks.build]
+command = "bash"
+args = ["./scripts/build.sh"]
+
+[tasks.update]
+command = "cargo"
+args = ["update"]

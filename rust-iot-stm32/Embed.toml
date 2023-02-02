@@ -1,0 +1,13 @@
+# Settings for `cargo embed`
+
+[default.general]
+chip = "STM32F103C8" # see options with `cargo embed --list-chips`
+
+[default.reset]
+halt_afterwards = false
+
+[default.rtt]
+enabled = true
+
+[default.gdb]
+enabled = false

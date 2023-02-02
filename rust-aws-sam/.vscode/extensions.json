@@ -1,0 +1,7 @@
+{
+  "recommendations": [
+	  "esbenp.prettier-vscode",
+	  "matklad.rust-analyzer",
+    "serayuzgur.crates"
+  ]
+}

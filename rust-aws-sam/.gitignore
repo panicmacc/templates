@@ -1,0 +1,6 @@
+/.direnv
+/target
+/build
+lambda.zip
+bootstrap
+

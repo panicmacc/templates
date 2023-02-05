@@ -54,7 +54,10 @@
         ];
 
       in rec {
-
+        
+        # `nix build`
+        packages = {};
+        
         # `nix develop`
         devShell = pkgs.mkShell {
           inputsFrom = builtins.attrValues self.packages.${system};

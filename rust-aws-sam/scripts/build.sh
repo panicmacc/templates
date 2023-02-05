@@ -1,7 +1,7 @@
 LAMBDA_ARCH="linux/x86_64"
 RUST_TARGET="x86_64-unknown-linux-gnu"
 RUST_VERSION="latest"
-PROJECT_NAME="rust-sam"
+PROJECT_NAME="rust-aws-sam"
 
 al2build() {
 	docker run --rm \
@@ -14,11 +14,10 @@ al2build() {
 }
 
 zipRustLambda() {
-	mkdir -p ./build
-	cp ./target/${RUST_TARGET}/release/${PROJECT_NAME} \
-		./build/bootstrap 
-		#&& zip lambda.zip bootstrap \
-		#&& rm bootstrap
+	mkdir -p ./build ./target/lambda/release
+	cp ./target/${RUST_TARGET}/release/${PROJECT_NAME} ./build/bootstrap \
+		&& zip ./target/lambda/release/lambda.zip ./build/bootstrap \
+		&& rm ./build/bootstrap
 }
 
 deploySamApp() {

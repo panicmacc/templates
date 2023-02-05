@@ -1141,7 +1141,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "rust-sam"
+name = "rust-aws-sam"
 version = "0.1.0"
 dependencies = [
  "aws-config",

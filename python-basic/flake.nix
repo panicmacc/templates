@@ -21,6 +21,7 @@
 
         python-packages = p: with p; [
           flake8
+          pandas
           pip
           setuptools
           wheel
@@ -28,12 +29,14 @@
 
         # `buildInputs` is for runtime dependencies. They need to match the target architecture.
         buildInputs = with pkgs; [
+          openssl
         ];
 
         # `nativeBuildInputs` is for build dependencies. They need to matchthe build host architecture.
         #  These get automatically added to PATH at build time.
         nativeBuildInputs = with pkgs; [
           pkg-config
+          poetry
           (python310.withPackages python-packages)
           gcc
         ];

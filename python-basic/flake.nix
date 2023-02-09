@@ -19,6 +19,13 @@
           inherit system;
         };
 
+        python-packages = p: with p; [
+          flake8
+          pip
+          setuptools
+          wheel
+        ];
+
         # `buildInputs` is for runtime dependencies. They need to match the target architecture.
         buildInputs = with pkgs; [
         ];
@@ -26,7 +33,8 @@
         # `nativeBuildInputs` is for build dependencies. They need to matchthe build host architecture.
         #  These get automatically added to PATH at build time.
         nativeBuildInputs = with pkgs; [
-          python3Full
+          pkg-config
+          (python310.withPackages python-packages)
           gcc
         ];
 

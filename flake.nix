@@ -52,11 +52,11 @@
         description = "Yew Web app.";
       };
       tex-basic = {
-        path = ./templates/tex-basic;
+        path = ./tex-basic;
         description = "LaTeX Document.";
       };
       vagrant-basic = {
-        path = ./templates/vagrant-basic;
+        path = ./vagrant-basic;
         description = "Vagrant boilerplate.";
       };
     

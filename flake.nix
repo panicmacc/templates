@@ -2,6 +2,7 @@
   description = "Panic's Assorted Templates";
 
   inputs = {
+    jupyenv.url = "github:tweag/jupyenv";
     # nixpkgs.url = "nixpkgs/nixos-21.11";
     # nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
     # utils = { url = "github:numtide/flake-utils"; };
@@ -12,13 +13,14 @@
     # };
   };
 
-  outputs = { self, ... }@inputs: {
+  outputs = { self, jupyenv, ... }@inputs: {
     templates = {
       
       golang-basic = {
         path = ./golang-basic;
         description = "Golang project.";
       };
+      jupyter = inputs.jupyenv.templates.default;
       python-basic = {
         path = ./python-basic;
         description = "Python project.";

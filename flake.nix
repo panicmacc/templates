@@ -15,7 +15,10 @@
 
   outputs = { self, jupyenv, ... }@inputs: {
     templates = {
-      
+      aiml-basic = {
+        path = ./aiml-basic;
+        description = "AI/ML project.";
+      };
       golang-basic = {
         path = ./golang-basic;
         description = "Golang project.";

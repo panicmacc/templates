@@ -30,6 +30,8 @@
         # `buildInputs` is for runtime dependencies. They need to match the target architecture.
         buildInputs = with pkgs; [
           openssl
+          stdenv.cc.cc.lib
+          gcc-unwrapped.lib
         ];
 
         # `nativeBuildInputs` is for build dependencies. They need to matchthe build host architecture.
@@ -39,6 +41,7 @@
           poetry
           (python310.withPackages python-packages)
           gcc
+          micromamba
         ];
 
       in rec {
@@ -66,6 +69,7 @@
           ]);
           shellHook = ''
             export PATH="$PATH"
+            export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:${pkgs.stdenv.cc.cc.lib}/lib"
           '';
         };
       }

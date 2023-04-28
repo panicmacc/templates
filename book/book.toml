@@ -1,0 +1,6 @@
+[book]
+authors = ["Adrian Schmitz"]
+language = "en"
+multilingual = false
+src = "src"
+title = "My Book"

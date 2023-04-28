@@ -1,0 +1,11 @@
+{
+    "recommendations": [
+        "arrterian.nix-env-selector",
+        "esbenp.prettier-vscode",
+        "matklad.rust-analyzer",
+        "ms-python.python",
+        "bbenoist.nix",
+        "serayuzgur.crates",
+        "yzhang.markdown-all-in-one",
+    ]
+}

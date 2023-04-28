@@ -19,6 +19,10 @@
         path = ./aiml-basic;
         description = "AI/ML project.";
       };
+      book = {
+        path = ./book;
+        description = "A book.";
+      };
       golang-basic = {
         path = ./golang-basic;
         description = "Golang project.";

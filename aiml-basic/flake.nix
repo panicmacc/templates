@@ -15,6 +15,15 @@
       let
 
         #########
+        # HW Acceleration Support
+        #
+
+        # Enabling CUDA support increases build time
+        #   `$ cachix use cuda-maintainers` may help
+        #
+        cudaSupport = false;
+
+        #########
         # Global settings
         #
         
@@ -69,20 +78,27 @@
           pandas
           pip
           setuptools
-          torchWithCuda
+          (if cudaSupport then torchWithCuda else torch)
           wheel
         ];
 
         # `buildInputs` is for runtime dependencies. They need to match the target architecture.
         buildInputs = with pkgs; [
-          cudatoolkit
-          libGL
+          #cudatoolkit
+          #libGL
           libtorch-bin
-          mesa
+          #mesa
           openssl
           pkgconfig
-          gcc-unwrapped.lib # CUDA
-          stdenv.cc.cc.lib  # CUDA
+          #gcc-unwrapped.lib # CUDA
+          stdenv.cc.cc.lib 
+        ];
+
+        cudaBuildInputs = with pkgs; [
+          cudatoolkit
+          libGL
+          mesa
+          gcc-unwrapped.lib
         ];
 
         # `nativeBuildInputs` is for build dependencies. They need to match the build host architecture.
@@ -160,7 +176,7 @@
         devShell = pkgs.mkShell {
           inputsFrom = builtins.attrValues self.packages.${system};
           buildInputs = buildInputs ++ (with pkgs; [
-          ]);
+          ]) ++ (if cudaSupport then cudaBuildInputs else []);
           # Here you can add any tools you need present in your development environment, 
           #  but that may not be needed at build or runtime. 
           nativeBuildInputs = nativeBuildInputs ++ (with pkgs; [

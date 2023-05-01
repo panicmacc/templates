@@ -1,80 +1,114 @@
 {
-  description = "rust-basic project starter";
+  description = "rust-node project starter";
 
   inputs = {
-    nixpkgs = { url = "github:nixos/nixpkgs/nixos-unstable"; };
-    utils = { url = "github:numtide/flake-utils"; };
-    rust-overlay = { url = "github:oxalica/rust-overlay"; };
-    flake-compat = {
-      url = "github:edolstra/flake-compat"; 
-      flake = false;
-    };
+    start.url = "github:panicmacc/start";
+    nixpkgs.follows = "start/nixpkgs-stable";
+    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
+    utils.follows = "start/flake-utils";
   };
 
-  outputs = { self, nixpkgs, utils, rust-overlay, ... }:
+  outputs = { self, start, nixpkgs, nixpkgs-unstable, utils }@inputs:
+  
     utils.lib.eachDefaultSystem (system:
+    
       let
-        name = "rust-node";
-        #pkgs = nixpkgs.legacyPackages.${system}; 
+
+        #########
+        # Global settings
+        #
+        
+        pkgsUnstable = import nixpkgs-unstable {
+          inherit system;
+          config = { allowUnfree = true; };
+        };
+          
+        # Cherry-pick some things from unstable
+        stable_unstable_things = self: super: with pkgsUnstable; {
+          inherit blender cmctl glooctl postman super-slicer kicad;
+        };
+        
+        overlays = [
+          start.overlays.rust-overlay.overlays.default
+          stable_unstable_things
+        ];
 
         pkgs = import nixpkgs {
-          inherit system;
-          overlays = [ rust-overlay.overlay ];
+          inherit overlays system;
+          config = { allowUnfree = true; };
         };
 
+        ##########
+        # Rust Overlay Configuration  
+        #
+          
         rustChannel = "nightly";
+        
+        # rustVersion = (pkgs.rust-bin.${rustChannel}.latest.default.override {
+        #   extensions = [ "rust-src" ];
+        #   targets = [ "wasm32-unknown-unknown" ];
+        # });
+            
+        # rustPlatform = pkgs.makeRustPlatform {
+        #   cargo = rustVersion;
+        #   rustc = rustVersion;
+        # };
+
+        nixosGitVersionStamp = (
+          { pkgs, ... }: {
+            system.configurationRevision = pkgs.lib.mkIf (self ? rev) self.rev;
+          }
+        );
+
+        python-packages = p: with p; [
+          flake8
+          pandas
+          pip
+          setuptools
+          (if cudaSupport then torchWithCuda else torch)
+          wheel
+        ];
 
         # `buildInputs` is for runtime dependencies. They need to match the target architecture.
         buildInputs = with pkgs; [
-          alsa-lib
-          glib
-          libGL
-          libxkbcommon
-          mesa
-          openssl.dev
-          vulkan-loader
-          wayland
-          xorg.libxcb
-          xorg.libX11
-          xorg.libXi
-          # Adding these to try to get bevy to build
+          nodejs
+          openssl
           pkgconfig
-          udev
-          alsaLib
-          x11
-          xorg.libXcursor
-          xorg.libXrandr
-          xorg.libXi
-          vulkan-tools
-          vulkan-headers
-          vulkan-loader
-          vulkan-validation-layers        
-          #for blackjack
-          atk
-          gsettings-desktop-schemas
-          gtk3
-          gdk-pixbuf
+          stdenv.cc.cc.lib 
         ];
 
-        # `nativeBuildInputs` is for build dependencies. They need to matchthe build host architecture.
+        # `nativeBuildInputs` is for build dependencies. They need to match the build host architecture.
         #  These get automatically added to PATH at build time.
         nativeBuildInputs = with pkgs; [
           binaryen
           cargo
-          cargo-make
+          cargo-binutils
+          cargo-edit
+          cargo-embed
+          gcc
           jq
+          micromamba
           nodejs
+          openssl.dev
           pkgconfig
+          poetry
+          (python310.withPackages python-packages)
           (rust-bin.${rustChannel}.latest.default.override {
-            extensions = [ "rust-src" ];
-            targets = [ "wasm32-unknown-unknown" ];
+            extensions = [
+              "llvm-tools-preview"
+              "rust-src" 
+            ];
+            targets = [
+              #"thumbv7em-none-eabihf" # nrf52 / micro:bit v2
+              "wasm32-unknown-unknown" 
+              "wasm32-wasi"
+            ];
           })
-          speechd
-          trunk
-          vulkan-loader
+          rustup
+          unzip
           wasm-bindgen-cli
           wasm-pack
-          python3
+          zip 
         ];
 
       in rec {
@@ -83,7 +117,6 @@
           hello = pkgs.hello;
           gitAndTools = pkgs.gitAndTools;
           
-          # TODO: set up real build with `buildRustPackage` and make this dynamic e.g. `packages.${name}`
           # https://github.com/NixOS/nixpkgs/blob/4fc53b59aecbc25c0e173163d60155f8fca14bfd/doc/languages-frameworks/rust.section.md#compiling-rust-applications-with-cargo 
 
           #rust-simple = rustPlatform.buildRustPackage rec {
@@ -126,30 +159,16 @@
             cargo-watch
             nixpkgs-fmt
             rust-analyzer
-            rust-bin.${rustChannel}.latest.rust-analysis
-            rust-bin.${rustChannel}.latest.rls
-            vulkan-tools
           ]);
           #
-          RUST_SRC_PATH = 
-            "${pkgs.rust-bin.${rustChannel}.latest.rust-src}/lib/rustlib/src/rust/library";
-          # for the bevy
-          shellHook = ''export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:${pkgs.lib.makeLibraryPath [
-            pkgs.alsaLib
-            pkgs.udev
-            pkgs.vulkan-loader
-          ]}"'';
-
+          RUST_SRC_PATH = "${pkgs.rust-bin.${rustChannel}.latest.rust-src}/lib/rustlib/src/rust/library";
+          shellHook = ''
+            export LD_LIBRARY_PATH="${pkgs.lib.makeLibraryPath buildInputs}:$LD_LIBRARY_PATH"
+            export PATH="$HOME/.cargo/bin:$PATH"
+          '';
+            #export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:${pkgs.stdenv.cc.cc.lib}/lib" # Still needed even with makeLibraryPath?
         };
-        # 
-        #shellHook = ''export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:${pkgs.lib.makeLibraryPath [
-        #  pkgs.alsaLib
-        #  pkgs.udev
-        #  pkgs.vulkan-loader
-        #]}"'';
       }
     );
-
-
 
 }

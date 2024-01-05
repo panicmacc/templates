@@ -53,11 +53,11 @@
         "systems": "systems"
       },
       "locked": {
-        "lastModified": 1681202837,
-        "narHash": "sha256-H+Rh19JDwRtpVPAWp64F+rlEtxUWBAQW28eAi3SRSzg=",
+        "lastModified": 1701680307,
+        "narHash": "sha256-kAuep2h5ajznlPMD9rnQyffWG8EM/C73lejGofXvdM8=",
         "owner": "numtide",
         "repo": "flake-utils",
-        "rev": "cfacdce06f30d2b68473a46042957675eebb3401",
+        "rev": "4022d587cbbfd70fe950c1e2083a02621806a725",
         "type": "github"
       },
       "original": {
@@ -173,6 +173,28 @@
       "original": {
         "owner": "haskell",
         "repo": "haskell-language-server",
+        "type": "github"
+      }
+    },
+    "home-manager": {
+      "inputs": {
+        "nixpkgs": [
+          "start",
+          "nixpkgs-stable"
+        ]
+      },
+      "locked": {
+        "lastModified": 1704099619,
+        "narHash": "sha256-QRVMkdxLmv+aKGjcgeEg31xtJEIsYq4i1Kbyw5EPS6g=",
+        "owner": "nix-community",
+        "repo": "home-manager",
+        "rev": "7e398b3d76bc1503171b1364c9d4a07ac06f3851",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "ref": "release-23.11",
+        "repo": "home-manager",
         "type": "github"
       }
     },
@@ -304,16 +326,16 @@
     },
     "nixpkgs-stable": {
       "locked": {
-        "lastModified": 1682538316,
-        "narHash": "sha256-YuHgVsR7S9zxJWHo7lo2ugd+uDC4ESWg1hA4bEZQv3Y=",
+        "lastModified": 1703992652,
+        "narHash": "sha256-C0o8AUyu8xYgJ36kOxJfXIroy9if/G6aJbNOpA5W0+M=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "15b75800dce80225b44f067c9012b09de37dfad2",
+        "rev": "32f63574c85fbc80e4ba1fbb932cde9619bad25e",
         "type": "github"
       },
       "original": {
         "id": "nixpkgs",
-        "ref": "nixos-22.11",
+        "ref": "nixos-23.11",
         "type": "indirect"
       }
     },
@@ -351,11 +373,11 @@
     },
     "nixpkgs-unstable": {
       "locked": {
-        "lastModified": 1682786779,
-        "narHash": "sha256-m7QFzPS/CE8hbkbIVK4UStihAQMtczr0vSpOgETOM1g=",
+        "lastModified": 1704194953,
+        "narHash": "sha256-RtDKd8Mynhe5CFnVT8s0/0yqtWFMM9LmCzXv/YKxnq4=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "08e4dc3a907a6dfec8bb3bbf1540d8abbffea22b",
+        "rev": "bd645e8668ec6612439a9ee7e71f7eac4099d4f6",
         "type": "github"
       },
       "original": {
@@ -609,11 +631,11 @@
         "jupyenv": "jupyenv"
       },
       "locked": {
-        "lastModified": 1682648959,
-        "narHash": "sha256-4FYue4kvKa/t36LI29n/YqAJ3/E6oMWOuowOJptgTng=",
+        "lastModified": 1690593389,
+        "narHash": "sha256-r3ieS/++EQER0MxJ0UXE0ZtE+bD8/dIJl/ZC/oqWn3E=",
         "owner": "panicmacc",
         "repo": "templates",
-        "rev": "0304a9d4b24d4edfd96518b32f21e94fca49e7dc",
+        "rev": "cc9e24d5d3bf36ba8615c4cbec3775dd47a133ec",
         "type": "github"
       },
       "original": {
@@ -687,11 +709,11 @@
         "nixpkgs": "nixpkgs_3"
       },
       "locked": {
-        "lastModified": 1682648393,
-        "narHash": "sha256-VH0/4PXTPHVc3E6NxuB51w2eW1/Yn8NGq+HkB8kA0cU=",
+        "lastModified": 1704075545,
+        "narHash": "sha256-L3zgOuVKhPjKsVLc3yTm2YJ6+BATyZBury7wnhyc8QU=",
         "owner": "oxalica",
         "repo": "rust-overlay",
-        "rev": "2c22a41baadfac75a4af5303fc3ef8d4145b795b",
+        "rev": "a0df72e106322b67e9c6e591fe870380bd0da0d5",
         "type": "github"
       },
       "original": {
@@ -703,16 +725,17 @@
     "start": {
       "inputs": {
         "flake-utils": "flake-utils",
+        "home-manager": "home-manager",
         "nixpkgs-stable": "nixpkgs-stable",
         "pri-templates": "pri-templates",
         "rust-overlay": "rust-overlay_2"
       },
       "locked": {
-        "lastModified": 1682649257,
-        "narHash": "sha256-zrfSvt7BSlIV3u8xqosCQt5JHDqLPBEY0+xOawVpVNM=",
+        "lastModified": 1704206158,
+        "narHash": "sha256-93l3dLtzAVfaLFnKLvWMcF2rFKMLPDc9OVFjdd22mBM=",
         "owner": "panicmacc",
         "repo": "start",
-        "rev": "283dfc802d02f132126f457f2c4126d8e447dbf9",
+        "rev": "15ba6e18fe99f951b9b31c7fa828e884314c2319",
         "type": "github"
       },
       "original": {

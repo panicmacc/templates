@@ -89,7 +89,6 @@
           libtorch-bin
           #mesa
           openssl
-          pkgconfig
           #gcc-unwrapped.lib # CUDA
           stdenv.cc.cc.lib 
         ];
@@ -108,14 +107,14 @@
           cargo
           cargo-binutils
           cargo-edit
-          cargo-embed
           gcc
           jq
           micromamba
           nodejs
           openssl.dev
-          pkgconfig
+          pkg-config
           poetry
+          probe-rs
           (python310.withPackages python-packages)
           (rust-bin.${rustChannel}.latest.default.override {
             extensions = [
@@ -123,6 +122,7 @@
               "rust-src" 
             ];
             targets = [
+              "riscv64gc-unknown-none-elf"
               #"thumbv7em-none-eabihf" # nrf52 / micro:bit v2
               "wasm32-unknown-unknown" 
               "wasm32-wasi"
